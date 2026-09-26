@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace "io.agora.encrypt"
+    compileSdk 35
+
+    defaultConfig {
+        minSdkVersion 24
+        targetSdkVersion 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++14"
+                abiFilters "armeabi-v7a", "arm64-v8a"
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures {
+        buildConfig true
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+
+        }
+    }
+
+}
+
+dependencies {
+    api fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}

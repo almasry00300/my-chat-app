@@ -1,0 +1,30 @@
+# Uncomment the next line to define a global platform for your project
+
+
+def common_pods
+  pod 'AgoraRtcEngine_macOS', '4.5.2'
+#  pod 'sdk', :path => 'sdk.podspec'
+end
+
+target 'APIExample' do
+  use_frameworks!
+  
+  common_pods
+
+  pod 'AGEVideoLayout', '1.0.2'
+end
+
+target 'SimpleFilter' do
+  use_frameworks!
+  common_pods
+end
+
+
+post_install do |installer|
+  # system("sh .download_script.sh 4.4.0 true")
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.13'
+    end
+  end
+end
